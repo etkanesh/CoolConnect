@@ -1,0 +1,45 @@
+CoolConnect
+
+Sprint 1:
+Learn Source Code (15)
+Unit Testing (20)
+Multiple Chat Rooms (25)
+Make MeshNetwork (60)
+Delegate Host option as Nearby function (30)
+Fix Bugs (??)
+
+Sprint 2:
+Continue MeshNetwork (60)
+Create Private Chatrooms (20)
+Encryption (60)
+Fix Bugs (??)
+
+Sprint 3:
+Search Chat (30)
+Search Person (40)
+Encryption (60)
+Friends List (10)
+Settings (20)
+
+Sprint 1 Assignments:
+Kevin: Learn Source Code, MeshNetwork
+Eric: Learn Source Code, Unit Testing, Bugs
+Alex: Learn Source Code, meshNetwork
+Andy, Learn Source Code, Multiple Chat Rooms, Nearby
+
+Backlog:
+As a developer, I would like to know the code I'm working with (15)
+As a developer, I would like extensive unit testing to be done on my source code (20)
+As a developer, I would like my code to be as bug free as possible (??)
+As a user, I would like to be able to be in multiple chat rooms (25)
+As a user, I don't want a chat to be lost when the creator leaves (60)
+As a user, I would like a nearby function to chat with only people close to me (30)
+As a user looking for privacy, I want to make a chat that can only be joined by password (20)
+As a paranoid schizophrenic, I don't want the governemnt overhearing my conversations (60)
+As a user, I would like to look for specific chats, such as those my friends have set up (30)
+As a user, I would like to have a contacts lists (10)
+As a user, I want quick access to my friends if they and nearby (40)
+As a user, I would like to have options when using the chat client (15)
+As a user, I would like to be able to send pictures (45)
+As a room host, I would like to moderate my chat (20)
+As a user looking for privacy, I want to make a chat that can only be joined by invite (??)
