@@ -15,7 +15,8 @@ Task 5: Other bug fixing-  8 hours
 
 total- 31 hours
 
-User Story 2: As a user I want a chat network to be as expansive and resilient as possible while still being solely peer-to-peer so I can have robust interactions without relying on a centralized system.
+User Story 2: As a user I want a chat network to be as expansive and resilient as possible while 
+still being solely peer-to-peer so I can have robust interactions without relying on a centralized system.
 
 Task 1: Protocols- 12 hours
 Task 2: Multiple Connections- 8 hours
@@ -44,4 +45,6 @@ Eric: Story 1 Task 1, Story 3 Task 1, Story 2 Task 4
 Gabe: Story 1 Task 4, Story 1 Task 5 
 Andrew: Story 1 Task 2, Story 1 Task 4, Story 1 Task 3, Story 3 Task 2
 
-Creating a mesh network will be hard, so two members, Kevin and Alex, are working together on it. Gabe is in charge of finding and fixing unspecified bugs while Andrew and Eric work on specific issues, and will contribute to general bug squashing if they have time. Andrew and Eric will also work on the nearby chat feature.
+Creating a mesh network will be hard, so two members, Kevin and Alex, are working together on it. 
+Gabe is in charge of finding and fixing unspecified bugs while Andrew and Eric work on specific issues, 
+and will contribute to general bug squashing if they have time. Andrew and Eric will also work on the nearby chat feature.
