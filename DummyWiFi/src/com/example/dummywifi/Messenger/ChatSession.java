@@ -32,6 +32,12 @@ public class ChatSession {
 
 	}
 	
+	public synchronized void clearMessages() {
+		// clear messageQueue
+		messageQueue.clear();
+		
+	}
+	
 	public int fetchMessages(int lastToken, StringBuffer queueBuffer) {
 		//Log.d("gowat", "fetchMessages called, token = " + lastToken + " size: " + messageQueue.size());
 		if (lastToken < messageQueue.size()) { // retrieve messages until you have the current message
