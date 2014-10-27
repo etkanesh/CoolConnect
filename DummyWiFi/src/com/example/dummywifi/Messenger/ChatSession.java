@@ -43,7 +43,7 @@ public class ChatSession {
 		if (lastToken < messageQueue.size()) { // retrieve messages until you have the current message
 			int i, byteCount = 0;
 			
-			for (i = lastToken; i < messageQueue.size(); i ++) {
+			for (i = lastToken; i < messageQueue.size(); i++) {
 				String message = messageQueue.get(i) + messageDelim;
 				byteCount += message.getBytes().length;
 				
