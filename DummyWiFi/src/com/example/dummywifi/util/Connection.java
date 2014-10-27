@@ -1,10 +1,16 @@
 package com.example.dummywifi.util;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 import android.util.Log;
+
+import com.example.dummywifi.models.ChatMessage;
 
 /*
  * Abstraction layer over socket
@@ -13,91 +19,99 @@ import android.util.Log;
 public class Connection {
 	public static final int MAX_READ_SIZE = 2048;
 	
-	private Socket connectionSocket;
-	
+	private final Socket connectionSocket;
+    private ObjectInputStream inputStream = null;
+    private ObjectOutputStream outputStream = null;
+
 	public Connection(Socket source) {
 		this.connectionSocket = source;
+
 		try {
 			source.setSoTimeout(750);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			//Log.d("gowat", "exception: " + e.getMessage());
-			e.printStackTrace();
+			Log.e("connection", "failed to set timeout: " + e);
 		}
 	}
-	
-	private static String trimNullBytes(byte[] in) {
-    	StringBuffer sb = new StringBuffer();
-    	
-    	for (int i = 0; i < in.length; i++) {
-    		if (in[i] == 0) break;
-    		sb.append((char)in[i]);
-    	}
-    	
-    	return sb.toString();
-    }
 	
 	public boolean isOpen() {
 		return (!connectionSocket.isClosed()) && connectionSocket.isConnected() && (!connectionSocket.isInputShutdown()) && (!connectionSocket.isOutputShutdown());
 	}
-	
-	/*
-	 * Returns true if the data was successfully sent to the destination
-	 */
-	public boolean sendData(byte[] data) {
-		if (!this.isOpen()) {
-			return false;
-		}
-		
-		try {
-			connectionSocket.getOutputStream().write(data);
-			connectionSocket.getOutputStream().flush();
-		} catch (IOException e) {
-			return false;
-		}
-		return true;
-	}
-	
-	public boolean receiveData(byte[] buffer) {
-		if (!this.isOpen()) {
-			return false;
-		}
-		
-		int result;
-		try {
-			result = connectionSocket.getInputStream().read(buffer, 0, MAX_READ_SIZE - 1);
-			//Log.d("gowat", "read operation completed");
-		} catch (IOException e) {
-			//Log.d("gowat", "exception: " + e.getMessage());
-			// Probably a timeout
-			return false;
-		}
-		
-		if (result == -1) {
-			return false; // no data was read
-		}
-		
-		return true; // data was read and put into buffer		
-	}
+
+    private synchronized boolean sendMessage(ChatMessage message) {
+        if (!this.isOpen()) return false;
+        // initialize the stream on first use, not possible in constructor because the socket is not yet connected
+        if (outputStream == null){
+            try {
+                outputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
+            } catch (IOException e) {
+                Log.e("connection","failed to initialize outputStream" + e);
+                return false;
+            }
+        }
+
+        try {
+            outputStream.writeObject(message);
+            outputStream.flush();
+        } catch (IOException e) {
+            Log.w("connection", "IO error while writing message " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private synchronized ChatMessage receiveMessage() {
+        if (!this.isOpen()) return null;
+        // initialize the stream on first use, not possible in constructor because the socket is not yet connected
+        if (inputStream == null){
+            try {
+                inputStream = new ObjectInputStream(connectionSocket.getInputStream());
+            } catch (IOException e) {
+                Log.e("connection","failed to initialize inputStream" + e);
+            }
+        }
+
+        try {
+            Object result = inputStream.readObject();
+            ChatMessage message =  (ChatMessage) result;
+            return message;
+        } catch (ClassCastException e) {
+            Log.e("connection","received message of unexpected type " + e);
+            return null;
+        } catch (StreamCorruptedException e){
+            Log.w("connection", "stream corrupted on receive message: " + e);
+            return null;
+        } catch (SocketTimeoutException e) {
+            // this is totally expected, since we are just polling on the inStream all the time
+            return null;
+        }catch (IOException e) {
+            Log.w("connection", "IO error when receiving message " + e);
+            return null;
+        } catch (ClassNotFoundException e) {
+            Log.e("connection", "class not found when receiving message " + e);
+            return null;
+        }
+    }
 
 	// wrapper for sending text
 	public boolean sendText(String text) {
-		return sendData(text.getBytes());
+        return sendMessage(new ChatMessage(text));
 	}
 	
 	public String receiveString() {
-		byte[] buffer = new byte[MAX_READ_SIZE];
-		if (receiveData(buffer)) {
-			String strvalue = trimNullBytes(buffer);
-			return strvalue;
-		} else {
-			return null;
-		}
+        ChatMessage message = receiveMessage();
+        if (message != null) {
+            return message.getText();
+        } else {
+            return null;
+        }
 	}
 	
 	public void close() {
-		try {
-			connectionSocket.close();
+		Log.i("connection","closing socket");
+        try {
+			outputStream.close();
+            inputStream.close();
+            connectionSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
