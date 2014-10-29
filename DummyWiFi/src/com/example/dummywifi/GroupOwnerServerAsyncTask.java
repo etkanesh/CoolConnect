@@ -34,9 +34,10 @@ public class GroupOwnerServerAsyncTask implements Runnable {
     public GroupOwnerServerAsyncTask(/*Context context, View statusText*/) {
         /*this.context = context;
         this.statusText = (TextView) statusText;*/
-    	session = new ChatSession();
+    	/*session = new ChatSession();
     	session.queueMessage("Welcome to Spot!");
-    	session.queueMessage("Start typing below to send a message.");
+    	session.queueMessage("Start typing below to send a message.");*/
+
     }
 
     @Override
@@ -49,6 +50,9 @@ public class GroupOwnerServerAsyncTask implements Runnable {
             
             while (!serverSocket.isClosed()) { // shouldn't happen unless maybe the wifi gets turned off
             	// keep waiting for clients to come, then accept them and make a worker for them
+            	session = new ChatSession();
+            	session.queueMessage("Welcome to Spot!");
+            	session.queueMessage("Start typing below to send a message.");
 	            Socket clientSocket = serverSocket.accept();
 	            
 	            Log.d("netcode", "Server: a connection with a client has been established");
@@ -56,7 +60,7 @@ public class GroupOwnerServerAsyncTask implements Runnable {
 	            Connection connection = new Connection(clientSocket);	                 
 	            Client client = new Client(connection, session.getNextId());
 	            client.setUserName("user" + new Random().nextInt(100));
-	            
+	           
 	            GroupOwnerWorkerAsyncTask gowat = new GroupOwnerWorkerAsyncTask(client, session);
 	            Log.d("netcode", "Worker created, running it");
 	            
