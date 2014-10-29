@@ -32,6 +32,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import java.util.ArrayList;
+import java.lang.Math;
 
 
 
@@ -137,35 +138,41 @@ public class MainActivity extends Activity {
             }
         });
         discoverbutt.setOnClickListener(new OnClickListener() {
-
+        	// will use fillList later
             @Override
             public void onClick(View v) {
+            	listItems.clear();
+            	arrayAdapter.notifyDataSetChanged();
+//            	configItems.clear();
+            	
             	if (!isWifiP2pEnabled) {
                     Toast.makeText(MainActivity.this, R.string.p2p_off_warning,
                             Toast.LENGTH_SHORT).show();
                 }
-                mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
+            	mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
 
-                    @Override
-                    public void onSuccess() {
-                    	for(int i = 0; i<configItems.size();i++){
-                        	listItems.add(configItems.get(i).deviceAddress);
-                        	arrayAdapter.notifyDataSetChanged();
-                        	Log.i("netcode","Device address is oooh:" + configItems.get(i).deviceAddress);
-                        }
-                    	Toast.makeText(MainActivity.this, "Discovery Initiated",
-                                Toast.LENGTH_SHORT).show();
-                        
-                    }
+    	    		@Override
+    	    		public void onSuccess() {
+    	    			for(int i = 0; i<configItems.size();i++){
+    	    	      	  	listItems.add(configItems.get(i).deviceAddress);
+    	    	        		arrayAdapter.notifyDataSetChanged();
+    	    	        		Log.i("netcode","Device address is oooh:" + configItems.get(i).deviceAddress);
+    	    	        }
+    	    			Toast.makeText(MainActivity.this, "Discovery Initiated",
+    	    					Toast.LENGTH_SHORT).show();
+    	    		}
 
-                    @Override
-                    public void onFailure(int reasonCode) {
-                        Toast.makeText(MainActivity.this, "Discovery Failed : " + reasonCode,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+    	    		@Override
+    	    		public void onFailure(int reasonCode) {
+    	    			Toast.makeText(MainActivity.this, "Discovery Failed : " + reasonCode,
+    	    					Toast.LENGTH_SHORT).show();
+    	    		}
+    	        
+    	    	});
+
             }
         });
+        
         
         
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -251,8 +258,44 @@ public class MainActivity extends Activity {
         
     }//End On Create
 
-    
-    @Override
+    //To be used with discovery later
+    public void fillList() throws InterruptedException{
+    	Thread t = new Thread()
+    	{
+    	    @Override
+    	    public void run() {
+    	    	mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
+
+    	    		@Override
+    	    		public void onSuccess() {
+    	        		
+    	    			Toast.makeText(MainActivity.this, "Discovery Initiated",
+    	    					Toast.LENGTH_SHORT).show();
+    	    		}
+
+    	    		@Override
+    	    		public void onFailure(int reasonCode) {
+    	    			Toast.makeText(MainActivity.this, "Discovery Failed : " + reasonCode,
+    	    					Toast.LENGTH_SHORT).show();
+    	    		}
+    	        
+    	    	});
+    	    }
+    	};
+    	
+    	t.start();
+    	t.join();
+    	Toast.makeText(MainActivity.this, "fuck",
+				Toast.LENGTH_SHORT).show();
+    	for(int i = 0; i<configItems.size();i++){
+      	  	listItems.add(configItems.get(i).deviceAddress);
+        		arrayAdapter.notifyDataSetChanged();
+        		Log.i("netcode","Device address is oooh:" + configItems.get(i).deviceAddress);
+        	}
+
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
