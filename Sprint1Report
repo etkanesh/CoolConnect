@@ -1,21 +1,32 @@
 Sprint 1 Report, CoolConnect, Maid of Fire, 10/28/14
 
 Things to Stop Doing:
-Putting 115 work as lowest priority: Most members seem to be pushing their sprint work to the bottom of the queue that is their life. This has caused some relatively simple tasks to be left undone.
+Putting 115 work as lowest priority: Most members seem to be pushing their sprint work to the bottom of the queue 
+that is their life. This has caused some relatively simple tasks to be left undone.
 
-Underestimating bugs: Some bugs seem easy to fix but ended up taking more time. If as a team we take bugs more seriously, they could probably get fixed faster.
+Underestimating bugs: Some bugs seem easy to fix but ended up taking more time. If as a team we take bugs more 
+seriously, they could probably get fixed faster.
 
-Procrastinating: Most team members did not start working until it was towards the end. We really need to be doing a little work all the time. 
+Procrastinating: Most team members did not start working until it was towards the end. We really need to be 
+doing a little work all the time. 
 
 Things to Start Doing:
-Get Eric a device: Currently Eric does not have a device to work with and thus can only use the emulator which is hard to develop on.
+Making sure to pull first: I just realized that someone commited and pushed without pulling first and so we
+lost our release plan, our sprint 1 plan, our burnup chart, and our scrum board. Seriously, that could cause
+huge problems in the future and may have already as far as our grades go.
 
-Pairing up: Currently only Kevin and Alex have been meeting up on the side. Since this is in fact a chat client, more members to make up private meeting times to test their features/bug fixes.
+Get Eric a device: Currently Eric does not have a device to work with and thus can only use the emulator 
+which is hard to develop on.
 
-Working more often: The group needs to do a little bit all the time. Doing bit by bit each day will help keep the project moving smoothly.
+Pairing up: Currently only Kevin and Alex have been meeting up on the side. Since this is in fact a chat client, 
+more members to make up private meeting times to test their features/bug fixes.
+
+Working more often: The group needs to do a little bit all the time. Doing bit by bit each day will help keep 
+the project moving smoothly.
 
 Things to Keep Doing:
-Sharing understanding: The team has been pretty good at communicating how different features of the code work. This understanding is crucial for members to proceed in development.
+Sharing understanding: The team has been pretty good at communicating how different features of the code work. 
+This understanding is crucial for members to proceed in development.
 
 Reporting issues: Issues need to be reported to be fixed. The team has done a good job of reporting issues on git.
 
