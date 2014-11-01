@@ -9,13 +9,27 @@ public class ChatMessage implements Serializable{
     private static final long serialVersionUID = -5967900946938355970L;
 
     private final String text;
+    private final int flag;
 
     public ChatMessage(String text) {
         this.text = text;
+        flag = 0;
     }
+    
+    public ChatMessage(String text, int flag)
+    {
+    	this.text = text;
+    	this.flag = flag;
+    }
+    
 
     public String getText() {
         return text;
+    }
+    
+    public int getFlag()
+    {
+    	return flag;
     }
 
     @Override

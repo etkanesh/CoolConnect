@@ -1,0 +1,44 @@
+Sprint 1 Plan
+Cool Connect
+Maid of Fire
+Ends 10/28/14
+Revision 1 10/21/14
+Goal: Clean up current app, lay base work for mesh network
+
+User Story 1: As a developer I want a solid code base so I can expand on it effectively
+Task 1: Garbage Collection - 5 hours
+Task 2: Fix Discovery- 8 hours
+Task 3: Connection Verification- 3 hours
+Task 4: Bug testing- 7 hours
+Task 5: Other bug fixing- 8 hours
+total- 31 hours
+
+User Story 2: As a user I want a chat network to be as expansive and resilient as possible while
+still being solely peer-to-peer so I can have robust interactions without relying on a centralized system.
+Task 1: Protocols- 12 hours
+Task 2: Multiple Connections- 8 hours
+Task 3: Ledger- 20 hours
+total- 40 hours
+
+User Story 3: As a user I want to chat with people nearby so I can have a simple and easy way of connecting quickly
+Task 1: Turn globals into class- 4 hours
+Task 2: Create UI- 2 hours
+total- 6 hours
+
+Roles
+Kevin Gray - Network Developer
+Alex Krishnan- Network Developer
+Gabe Yanovsky- Troubleshooter
+Eric Kaneshige - Troubleshooter
+Andrew Guttman- Troubleshooter, UI Developer
+
+Tasks:
+Kevin: Story 2 Task 1, Story 2 Task 2, Story 2 Task 3
+Alex: Story 2 Task 1, Story 2 Task 2, Story 2 Task 3
+Eric: Story 1 Task 1, Story 3 Task 1, Story 2 Task 4
+Gabe: Story 1 Task 4, Story 1 Task 5
+Andrew: Story 1 Task 2, Story 1 Task 4, Story 1 Task 3, Story 3 Task 2
+
+Creating a mesh network will be hard, so two members, Kevin and Alex, are working together on it.
+Gabe is in charge of finding and fixing unspecified bugs while Andrew and Eric work on specific issues,
+and will contribute to general bug squashing if they have time. Andrew and Eric will also work on the nearby chat feature.
