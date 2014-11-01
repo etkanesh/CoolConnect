@@ -73,6 +73,7 @@ public class Connection {
         try {
             Object result = inputStream.readObject();
             ChatMessage message =  (ChatMessage) result;
+
             return message;
         } catch (ClassCastException e) {
             Log.e("connection","received message of unexpected type " + e);
@@ -100,6 +101,12 @@ public class Connection {
 	public String receiveString() {
         ChatMessage message = receiveMessage();
         if (message != null) {
+        	if (message.getFlag() != 1)
+        	{
+        		//does this work?
+        		ChatMessage rmessage = new ChatMessage("RECEIVED", 1);
+        		sendMessage(rmessage);
+        	}
             return message.getText();
         } else {
             return null;
