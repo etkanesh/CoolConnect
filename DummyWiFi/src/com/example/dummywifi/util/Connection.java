@@ -98,16 +98,17 @@ public class Connection {
         return sendMessage(new ChatMessage(text));
 	}
 	
-	public String receiveString() {
+	public ChatMessage receiveString() {
         ChatMessage message = receiveMessage();
         if (message != null) {
         	if (message.getFlag() != 1)
         	{
         		//does this work?
-        		ChatMessage rmessage = new ChatMessage("RECEIVED", 1);
-        		sendMessage(rmessage);
+        		Log.d("Message is: ", message.getText());
+        		//ChatMessage rmessage = new ChatMessage("hello", 1);
+        		//sendMessage(rmessage);
         	}
-            return message.getText();
+            return message;
         } else {
             return null;
         }

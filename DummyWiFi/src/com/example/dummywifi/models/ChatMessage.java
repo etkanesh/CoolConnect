@@ -9,6 +9,11 @@ public class ChatMessage implements Serializable{
     private static final long serialVersionUID = -5967900946938355970L;
 
     private final String text;
+    /*
+     * 0 = chat message
+     * 1 = confirmation message
+     * 2 = command
+     */
     private final int flag;
 
     public ChatMessage(String text) {

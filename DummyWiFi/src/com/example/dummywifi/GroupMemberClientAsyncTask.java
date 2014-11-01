@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.example.dummywifi.Messenger.ChatSession;
 import com.example.dummywifi.util.Connection;
+import com.example.dummywifi.models.ChatMessage;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -66,10 +67,10 @@ public class GroupMemberClientAsyncTask implements Runnable {
 				//connection.sendText("hello");
 				//Thread.sleep(750);
 				
-				String newMessages = null;
+				ChatMessage newMessages = null;
 				if ((newMessages = connection.receiveString()) != null) {
-            		Log.d("message", "Client received message: " + newMessages);
-            		String[] messages = newMessages.split(ChatSession.messageDelim);
+            		Log.d("message", "Client received message: " + newMessages.getText());
+            		String[] messages = newMessages.getText().split(ChatSession.messageDelim);
             		Log.d("message", "actual message count: " + messages.length);
             		for (String message : messages) {
 						// This block will move to the gmcat. Right now the gmcat is being used for testing sending "hello" over and over

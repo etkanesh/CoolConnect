@@ -9,6 +9,7 @@ import com.example.dummywifi.Messenger.MessengerCommands.JoinGroupCommandExecuto
 import com.example.dummywifi.Messenger.MessengerCommands.SetUsernameCommandExecutor;
 import com.example.dummywifi.models.Client;
 import com.example.dummywifi.util.Connection;
+import com.example.dummywifi.models.ChatMessage;
 
 import android.os.AsyncTask;
 import android.os.Message;
@@ -57,7 +58,7 @@ public class GroupOwnerWorkerAsyncTask implements Runnable {
 		Log.d("netcode", "worker listening to client messages");
 		Connection connection = client.getConnection();
 		
-		String readString = null;
+		ChatMessage readString = null;
 		int lastToken = 0;
 		StringBuffer messages = new StringBuffer();
 		
@@ -85,15 +86,15 @@ public class GroupOwnerWorkerAsyncTask implements Runnable {
             	
             	//Log.d("message", "received message: " + readString);
             	
-            	if (readString.startsWith("!")) {
+            	if (readString.getText().startsWith("!") || readString.getFlag() == 2) {
             		// it's a command
-            		String[] args = readString.split("\\s+");
+            		String[] args = readString.getText().split("\\s+");
             		runCommand(args[0], args);
             	} else {
             		// it's a message
             		// put it in the message queue
-            		session.queueMessage(client.getUserName() + ": " +  readString);
-            		Log.d("message", "put '" + readString + "' into the message queue");            		
+            		session.queueMessage(client.getUserName() + ": " +  readString.getText());
+            		Log.d("message", "put '" + readString.getText() + "' into the message queue");            		
             	}
             }
             try {
