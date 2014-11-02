@@ -1,6 +1,7 @@
 package com.example.dummywifi.models;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Created by alex on 10/26/14.
@@ -11,16 +12,19 @@ public class ChatMessage implements Serializable{
 
     private final String text;
     private final Types type;
+    private final UUID id;
 
 
     public ChatMessage(String text) {
+        this.id = UUID.randomUUID();
         this.text = text;
         type = Types.MESSAGE;
     }
     
     public ChatMessage(String text, Types type)
     {
-    	this.text = text;
+    	this.id = UUID.randomUUID();
+        this.text = text;
     	this.type = type;
     }
     
@@ -33,6 +37,8 @@ public class ChatMessage implements Serializable{
     {
     	return type;
     }
+
+    public UUID getId() {return id; }
 
     @Override
     public boolean equals(Object o) {
