@@ -7,6 +7,7 @@ import java.io.StreamCorruptedException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.UUID;
 
 import android.util.Log;
 
@@ -99,21 +100,27 @@ public class Connection {
 	}
     // wrapper for sending commands
     public boolean sendCommand(String text) { return sendMessage(new ChatMessage(text, ChatMessage.Types.COMMAND)); }
+
+    private boolean sendAck(UUID ackId) { return sendMessage(new ChatMessage(ackId.toString(), ChatMessage.Types.ACK)); }
 	
 	public ChatMessage receiveString() {
         ChatMessage message = receiveMessage();
         if (message != null) {
-        	if (message.getType() != ChatMessage.Types.ACK)
-        	{
-        		//does this work?
-        		Log.d("Message is: ", message.getText());
-        		//ChatMessage rmessage = new ChatMessage("hello", ChatMessage.Types.ACK);
-        		//sendMessage(rmessage);
-        	}
-            return message;
-        } else {
-            return null;
+        	switch (message.getType()) {
+                case MESSAGE:
+                    // acknowledge the message
+                    // TODO this should be moved out to whatever ACK manager we create, so it is done asynchronously
+                    sendAck(message.getId());
+                    return message;
+                case ACK:
+                    // TODO do something with acks
+                    Log.d("connection", "recieved ACK for Id: " + message.getText());
+                    return null;
+                case COMMAND:
+                    return message;
+            }
         }
+        return null;
 	}
 	
 	public void close() {
