@@ -97,6 +97,8 @@ public class Connection {
 	public boolean sendText(String text) {
         return sendMessage(new ChatMessage(text));
 	}
+    // wrapper for sending commands
+    public boolean sendCommand(String text) { return sendMessage(new ChatMessage(text, ChatMessage.Types.COMMAND)); }
 	
 	public ChatMessage receiveString() {
         ChatMessage message = receiveMessage();
