@@ -36,7 +36,8 @@ public class Connection {
 		}
 
         this.ackManager = new AckManager(this);
-        ackManager.run();
+        Thread ackThread = new Thread(ackManager);
+        ackThread.start();
 	}
 	
 	public boolean isOpen() {
@@ -105,6 +106,19 @@ public class Connection {
         ackManager.messageSent(message);
         return sendMessage(message);
 	}
+
+    /**
+     * This function is only called by the chat owner, it is a workaround for the fact
+     * that we are "sending" all messages to ourself in order to write messages
+     * to the UI for display with username.
+     * @param text message text WITH USERNAME
+     * @return
+     */
+    public boolean sendNamedText(String text) {
+        ChatMessage message = new ChatMessage(text);
+        // don't bother telling ackmgr about this, we aren't expecting any acks
+        return sendMessage(message);
+    }
     // wrapper for sending commands
     public boolean sendCommand(String text) {
         ChatMessage message = new ChatMessage(text, ChatMessage.Types.COMMAND);

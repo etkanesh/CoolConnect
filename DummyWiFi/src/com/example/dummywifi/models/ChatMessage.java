@@ -53,7 +53,7 @@ public class ChatMessage implements Serializable{
 
         ChatMessage message = (ChatMessage) o;
 
-        if (!id.equals(message.id) || !text.equals(message.text)) return false;
+        if (!id.equals(message.id)) return false;
 
         return true;
     }
@@ -61,5 +61,15 @@ public class ChatMessage implements Serializable{
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "text='" + text + '\'' +
+                ", type=" + type +
+                ", id=" + id +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }
