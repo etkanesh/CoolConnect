@@ -24,8 +24,6 @@ public class Connection {
     private ObjectInputStream inputStream = null;
     private ObjectOutputStream outputStream = null;
 
-    private final AckManager ackManager;
-
 	public Connection(Socket source) {
 		this.connectionSocket = source;
 
@@ -34,16 +32,13 @@ public class Connection {
 		} catch (SocketException e) {
 			Log.e("connection", "failed to set timeout: " + e);
 		}
-
-        this.ackManager = new AckManager(this);
-        ackManager.run();
 	}
 	
 	public boolean isOpen() {
 		return (!connectionSocket.isClosed()) && connectionSocket.isConnected() && (!connectionSocket.isInputShutdown()) && (!connectionSocket.isOutputShutdown());
 	}
 
-    protected synchronized boolean sendMessage(ChatMessage message) {
+    private synchronized boolean sendMessage(ChatMessage message) {
         if (!this.isOpen()) return false;
         // initialize the stream on first use, not possible in constructor because the socket is not yet connected
         if (outputStream == null){
@@ -101,31 +96,27 @@ public class Connection {
 
 	// wrapper for sending text
 	public boolean sendText(String text) {
-        ChatMessage message = new ChatMessage(text);
-        ackManager.messageSent(message);
-        return sendMessage(message);
+        return sendMessage(new ChatMessage(text));
 	}
     // wrapper for sending commands
-    public boolean sendCommand(String text) {
-        ChatMessage message = new ChatMessage(text, ChatMessage.Types.COMMAND);
-        ackManager.messageSent(message);
-        return sendMessage(message);
-    }
+    public boolean sendCommand(String text) { return sendMessage(new ChatMessage(text, ChatMessage.Types.COMMAND)); }
 
-    protected boolean sendAck(UUID ackId) { return sendMessage(new ChatMessage(ackId.toString(), ChatMessage.Types.ACK)); }
+    private boolean sendAck(UUID ackId) { return sendMessage(new ChatMessage(ackId.toString(), ChatMessage.Types.ACK)); }
 	
 	public ChatMessage receiveString() {
         ChatMessage message = receiveMessage();
         if (message != null) {
         	switch (message.getType()) {
                 case MESSAGE:
-                    ackManager.messageReceived(message.getId());
+                    // acknowledge the message
+                    // TODO this should be moved out to whatever ACK manager we create, so it is done asynchronously
+                    sendAck(message.getId());
                     return message;
                 case ACK:
-                    ackManager.ackReceived(UUID.fromString(message.getText()));
-                    return receiveString(); // hack, since for now we are only checking for one message at a time
+                    // TODO do something with acks
+                    Log.d("connection", "recieved ACK for Id: " + message.getText());
+                    return null;
                 case COMMAND:
-                    ackManager.messageReceived(message.getId());
                     return message;
             }
         }
