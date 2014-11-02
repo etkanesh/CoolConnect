@@ -14,12 +14,12 @@ public class ChatMessage implements Serializable{
     private final String text;
     private final Types type;
     private final UUID id;
-    private final Date timestamp;
+    private final long timestamp;
 
 
     public ChatMessage(String text) {
         this.id = UUID.randomUUID();
-        this.timestamp = new Date();
+        this.timestamp = System.currentTimeMillis();
         this.text = text;
         type = Types.MESSAGE;
     }
@@ -27,7 +27,7 @@ public class ChatMessage implements Serializable{
     public ChatMessage(String text, Types type)
     {
     	this.id = UUID.randomUUID();
-        this.timestamp = new Date();
+        this.timestamp = System.currentTimeMillis();
         this.text = text;
     	this.type = type;
     }
@@ -44,7 +44,7 @@ public class ChatMessage implements Serializable{
 
     public UUID getId() { return id; }
 
-    public Date getTimestamp() { return timestamp; }
+    public long getTimestamp() { return timestamp; }
 
     @Override
     public boolean equals(Object o) {
@@ -53,13 +53,13 @@ public class ChatMessage implements Serializable{
 
         ChatMessage message = (ChatMessage) o;
 
-        if (!text.equals(message.text)) return false;
+        if (!id.equals(message.id) || !text.equals(message.text)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return text.hashCode();
+        return id.hashCode();
     }
 }
