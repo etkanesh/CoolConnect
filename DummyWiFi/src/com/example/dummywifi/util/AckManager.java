@@ -21,13 +21,13 @@ class AckManager implements Runnable{
 
     private final ConcurrentHashMap<UUID, ChatMessage> nonAckedMessages;
     private final ConcurrentSkipListSet<UUID> retriedMessages;
-    private final Set<UUID> receivedMessages;
+    private final ConcurrentSkipListSet<UUID> receivedMessages;
 
     AckManager(Connection connection) {
         this.connection = connection;
         this.nonAckedMessages = new ConcurrentHashMap<UUID, ChatMessage>();
         this.retriedMessages = new ConcurrentSkipListSet<UUID>();
-        this.receivedMessages = Collections.synchronizedSet(new HashSet<UUID>());
+        this.receivedMessages = new ConcurrentSkipListSet<UUID>();
     }
 
     void ackReceived(UUID msgId) {

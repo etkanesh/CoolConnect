@@ -37,6 +37,14 @@ public class Connection {
 
         this.ackManager = new AckManager(this);
         Thread ackThread = new Thread(ackManager);
+        ackThread.setUncaughtExceptionHandler(
+                new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(Thread thread, Throwable throwable) {
+                        Log.e("AckManager", "AckManager has crashed!",throwable);
+                    }
+                }
+        );
         ackThread.start();
 	}
 	
