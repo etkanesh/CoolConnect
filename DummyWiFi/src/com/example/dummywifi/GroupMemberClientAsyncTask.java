@@ -47,7 +47,7 @@ public class GroupMemberClientAsyncTask implements Runnable {
 		connection = null;
 		try {
 			socket.bind(null);
-			socket.connect(groupOwnerAddress, 8888); // used to be 3000
+			socket.connect(groupOwnerAddress, 3000); // used to be 3000
 			connection = new Connection(socket);
 				
 			connection.sendCommand("joingroup");
